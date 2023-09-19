@@ -13,6 +13,8 @@ export default defineConfig({
             }
         ]
     },
+    // github.io部署
+    base: "/gomoku/",
     plugins: [
         react(),
         // antd按需加载

@@ -1,4 +1,4 @@
-name: Build and Deploy Gomoku           # 大标题
+name: Build and Deploy Gomoku
 
 on:
   push:
@@ -6,19 +6,28 @@ on:
   pull_request:
     branches: [ "master" ]
 
+# 设置 GITHUB_TOKEN 的权限，以允许部署到 GitHub Pages。
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
+  
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x]
+    # strategy:
+    #   matrix:
+    #     node-version: [18.x]
 
     steps:
-      - name: Checkout                   # 第一步：获取源码
+      # 第一步：获取源码
+      - name: Checkout                   
         uses: actions/checkout@v3                
 
-      - name : Use Pnpm                  # 第二步：使用pnpm包管理器
+      # 第二步：使用pnpm包管理器
+      - name : Use Pnpm                  
         uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -28,13 +37,15 @@ jobs:
       #   with:
       #     node-version: ${{ matrix.node-version }}
 
-      - name: Install and Build          # 第三步：下载依赖和构建     
+      # 第三步：下载依赖和构建     
+      - name: Install and Build          
         run: |
           pnpm install
           pnpm run build
 
-      - name: Deploy                     # 第四步：部署
+      # 第四步：部署
+      - name: Deploy                     
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist                   # 部署的目录
-          branch: master                 # 部署到哪个分支
+          folder: dist                  
+          branch: master                
